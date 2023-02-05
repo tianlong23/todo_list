@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do List</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">    
+</head>
+<body>
+    <h1>My New Tasklist</h1>
+    <div class="newTaskContainer">
+        <h2>New Task</h2>
+        <div class="inputContainer">
+            <span 
+                class="taskInput"
+                role="textbox" 
+                contenteditable>
+                    What do you want to get done today?
+            </span>
+        </div>
+        <button id="taskButton" class="taskButton">Add Task</button>
+    </div>
+    <div class="overviewContainer">
+        <div class="taskContainer">
+            <div class="checkContainer">
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="task">Here is an example task</div>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
+        <div class="taskContainer">
+            <div class="checkContainer">
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="task">Here is an example task</div>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
+        <div class="taskContainer">
+            <div class="checkContainer">
+                <input type="checkbox" class="checkbox">
+            </div>
+            <div class="task">Here is an example task</div>
+            <button class="edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
+        <div class="taskContainer">
+            <div class="finished-checkContainer">
+                <input type="checkbox" class="checkbox" checked>
+            </div>
+            <div class="finished-task">Here is an example finished task</div>
+            <button class="finished-edit">Edit</button>
+            <button class="delete">Delete</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

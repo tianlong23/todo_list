@@ -1,0 +1,146 @@
+body {
+    font-family: 'Montserrat', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 2vw;
+}
+
+.newTaskContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20vh;
+}
+
+.taskInput {
+    margin: 0 12px 0 12px;
+    height: 56px;
+    text-align: center;
+    border-radius: 8px;
+    border: none;
+    background-color: lightgrey;
+    min-width: none;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 28px;
+}
+
+span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 56px;
+}
+
+button.taskButton {
+    height: 56px;
+    width: 70px;
+    border-radius: 8px;
+    border: none;
+    background-color: lightgrey;
+}
+
+.taskContainer {
+    display: flex;
+    margin: 20px 0 20px 0;
+    justify-content: center;
+    text-align: middle;
+}
+
+.task {
+    display: flex;
+    margin: 0 12px 0 26px;
+    height: 56px;
+    border-radius: 8px;
+    align-items: center;
+    border: none;
+    background-color: lightgrey;
+    width: calc(50vw - 20px);
+    padding-left: 15px;
+}
+
+.edit, .delete {
+    height: 56px;
+    margin-right: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: lightgrey;
+    width: 70px;
+}
+
+.delete {
+    background-color: lightcoral;
+}
+
+input[type="checkbox"] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    cursor: pointer;
+    height: 20px;
+    -webkit-appearance: none;
+    background-color: darkgray;
+    border-radius: 4px;
+    content: "\f00c";
+}
+
+input[type="checkbox"]::after {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 18px;
+    content: "\f00c";
+    color:white;
+    display: none;
+}
+
+input[type="checkbox"]:checked {
+    background-color: green;
+}
+
+input[type="checkbox"]:checked::after {
+    display:block;
+}
+
+.checkContainer {
+    background-color: lightgrey;
+    border-radius: 8px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.finished-checkContainer {
+    background-color: lightgreen;
+    border-radius: 8px;
+    width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.finished-task {
+    display: flex;
+    margin: 0 12px 0 26px;
+    height: 56px;
+    border-radius: 8px;
+    align-items: center;
+    border: none;
+    background-color: lightgreen;
+    width: calc(50vw - 20px);
+    padding-left: 15px;
+    text-decoration: line-through;
+}
+
+.finished-edit {
+    height: 56px;
+    margin-right: 12px;
+    border-radius: 8px;
+    border: none;
+    background-color: lightgreen;
+    width: 70px;
+}
