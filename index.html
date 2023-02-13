@@ -13,6 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">    
 </head>
 <body>
+    <div class="popup" id="popup-1">
+        <div class="overlay"></div>
+        <div class="content">
+            <div class="popTitle">Delete?</div>
+            <div class="popBtnContainer">
+                <button id="popDelete">Delete</button>
+                <button id="popCancel">Cancel</button>
+            </div>
+        </div>
+    </div>
     <h1>My New Tasklist</h1>
     <div class="newTaskContainer">
         <h2>New Task</h2>
@@ -26,10 +36,10 @@
         </div>
         <button id="taskButton" class="taskButton">Add Task</button>
     </div>
-    <div class="overviewContainer">
+    <div id="overviewContainer">
         <div class="taskContainer">
             <div class="checkContainer">
-                <input type="checkbox" class="checkbox">
+                <input type="checkbox" class="checkbox" name="type">
             </div>
             <div class="task">Here is an example task</div>
             <button class="edit">Edit</button>

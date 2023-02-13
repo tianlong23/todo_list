@@ -13,7 +13,7 @@
             for the checkbox, delete button, and edit button, there needs to be identifiers to match it with the specific item
     append this whole new element in to the existing list of items
 
-3)Create checkbox functionality (when checkbox is clicked, the item should go from gray, to green, and have a strikethrough the text, when checked again goes away)
+3)Create checkbox functionality (when checkbox is clicked, the item should go from gray, to green, and have a strikethrough the text, when checked again goes away) - DONE
     search the existing element for an object matching both the class and the ID (example here is first an href for a class, then the ID("a.save#country")), should be query selector
     remove the existing class
     add a new class that changes the style to 'finished', as noted in the first line of this part
@@ -23,7 +23,8 @@
     upon click:
         search the existing element for a container object matching the ID 
             have a popup appear double confirming they would like to delete task, "INSERT TASK NAME", this should be a nested function, if returns TRUE, then delete
-                the delete button should trigger the ::after of a css class selector that makes the popup visible
+                popup should be a second function that takes in the ID  from the delete task function
+                the delete button should toggle the active class which makes the popup appear
                 upon clicking, "YES", the function returns true 
             this "TRUE" is taken and deletes the element with element.remove()
 
@@ -67,14 +68,14 @@ function appendTask(taskID, taskName) {
         </div>
         <div class="task" id="${taskID}">${taskName}</div>
         <button class="edit" id="${taskID}">Edit</button>
-        <button class="delete">Delete</button>
+        <button class="delete" id="${taskID}">Delete</button>
     `;
     console.log(addedTask);
     document.getElementById('overviewContainer').appendChild(addedTask);
     finishTask();
     checkEventListener();
+    deleteTask();
 }
-
 function finishTask() {
     $("input:checkbox[name=type]:checked").each(function() {
         console.log(this.id)
@@ -82,27 +83,48 @@ function finishTask() {
 }
 
 function checkEventListener() {
-    var test = document.getElementsByClassName('checkContainer');
-    console.log(test)
-    for (var i = 0; i<test.length; i++) {
-        if(test){
-        test[i].addEventListener('click', updateStyleDone, false);
+    var checkContainer = document.getElementsByClassName('checkContainer');
+    for (var i = 0; i<checkContainer.length; i++) {
+        if(checkContainer){
+            checkContainer[i].addEventListener('click', updateStyleDone, false);
     }
 }
     
     }
 
 function updateStyleDone() {
-    var idNumber = this.id;
     var updatedTask = document.querySelector(`#${this.id}.taskContainer`)
     if (updatedTask.querySelector(`#${this.id}.checkbox`).checked) {
-    updatedTask.querySelector(`#${this.id}.task`).classList.remove
-    updatedTask.querySelector(`#${this.id}.task`).classList.add('finished-task')
-    updatedTask.querySelector(`#${this.id}.checkContainer`).classList.add('finished-checkContainer')
-    updatedTask.querySelector(`#${this.id}.edit`).classList.add('finished-edit')
+        updatedTask.querySelector(`#${this.id}.task`).classList.remove
+        updatedTask.querySelector(`#${this.id}.task`).classList.add('finished-task')
+        updatedTask.querySelector(`#${this.id}.checkContainer`).classList.add('finished-checkContainer')
+        updatedTask.querySelector(`#${this.id}.edit`).classList.add('finished-edit')
     } else {
-    updatedTask.querySelector(`#${this.id}.task`).classList.remove('finished-task')
-    updatedTask.querySelector(`#${this.id}.checkContainer`).classList.remove('finished-checkContainer')
-    updatedTask.querySelector(`#${this.id}.edit`).classList.remove('finished-edit')
+        updatedTask.querySelector(`#${this.id}.task`).classList.remove('finished-task')
+        updatedTask.querySelector(`#${this.id}.checkContainer`).classList.remove('finished-checkContainer')
+        updatedTask.querySelector(`#${this.id}.edit`).classList.remove('finished-edit')
     }
 }
+
+function deleteTask() {
+    var deleteButton = document.getElementsByClassName('delete');
+    for (var i = 0; i<deleteButton.length; i++) {
+        deleteButton[i].addEventListener('click', function(){
+            document.getElementById('popup-1').classList.toggle('active');
+            console.log(this.id)
+            divID = this.id;
+        })
+    }
+    var cancelDelete = document.getElementById('popCancel')
+    cancelDelete.addEventListener('click', function(){
+        document.getElementById('popup-1').classList.remove('active')
+    })
+    var confirmDelete = document.getElementById('popDelete')
+    console.log('confirm delete: ' + confirmDelete);
+    confirmDelete.addEventListener('click', function(){
+        console.log(document.querySelector(`#${divID}.taskContainer`));
+        //HERE, need to figure out why this chunk of code is running twice
+    })
+}
+
+deleteTask ()
