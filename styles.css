@@ -39,6 +39,7 @@ button.taskButton {
     border-radius: 8px;
     border: none;
     background-color: lightgrey;
+    cursor: pointer;
 }
 
 .taskContainer {
@@ -67,6 +68,7 @@ button.taskButton {
     border: none;
     background-color: lightgrey;
     width: 70px;
+    cursor: pointer;
 }
 
 .delete {
@@ -121,6 +123,7 @@ input[type="checkbox"]:checked::after {
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: all 300ms ease-in-out;
 }
 
 .finished-task {
@@ -134,6 +137,7 @@ input[type="checkbox"]:checked::after {
     width: calc(50vw - 20px);
     padding-left: 15px;
     text-decoration: line-through;
+    transition: all 300ms ease-in-out;
 }
 
 .finished-edit {
@@ -143,6 +147,8 @@ input[type="checkbox"]:checked::after {
     border: none;
     background-color: lightgreen;
     width: 70px;
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
 }
 
 .popTitle {
@@ -152,19 +158,24 @@ input[type="checkbox"]:checked::after {
     padding-top: 5px;
 }
 
-#popDelete, #popCancel {
+#popDelete, #popCancel, #popConfirm, #popCancel2 {
     height: 56px;
     margin-right: 12px;
     border-radius: 8px;
     border: none;
     width: 90px;
+    cursor: pointer;
 }
 
 #popDelete {
     background-color: lightcoral;
 }
 
-#popCancel {
+#popConfirm {
+    background-color: lightgreen;
+}
+
+#popCancel, #popCancel2 {
     background-color: lightgray;
 }
 
@@ -193,6 +204,13 @@ input[type="checkbox"]:checked::after {
     border-radius: 6px;
 }
 
+#popup-2 .content{
+    height: 30vh;
+}
+
+#editInput {
+    margin-bottom: 15px;
+}
 
 .popup.active .overlay {
     display: block;

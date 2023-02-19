@@ -19,7 +19,7 @@
     add a new class that changes the style to 'finished', as noted in the first line of this part
     remove existing class for the checkbox, delete, and edit buttons as well, add new class for the green style, but with no strikethrough
 
-4) create the delete button and function
+4) create the delete button and function - Done
     upon click:
         search the existing element for a container object matching the ID 
             have a popup appear double confirming they would like to delete task, "INSERT TASK NAME", this should be a nested function, if returns TRUE, then delete
@@ -29,7 +29,7 @@
             this "TRUE" is taken and deletes the element with element.remove()
 
 
-5) Create the edit function
+5) Create the edit function - DONE
     upon click:
         search the existing element for an object matching both the class and the ID (example here is first an href for a class, then the ID("a.save#country")), should be query selector
         create a popup that has an input bar, with buttons that say, confirm, and cancel
@@ -75,6 +75,7 @@ function appendTask(taskID, taskName) {
     finishTask();
     checkEventListener();
     deleteTask();
+    editTask();
 }
 function finishTask() {
     $("input:checkbox[name=type]:checked").each(function() {
@@ -111,20 +112,49 @@ function deleteTask() {
     for (var i = 0; i<deleteButton.length; i++) {
         deleteButton[i].addEventListener('click', function(){
             document.getElementById('popup-1').classList.toggle('active');
-            console.log(this.id)
             divID = this.id;
+            var confirmDelete = document.getElementById('popDelete')
+            confirmDelete.addEventListener('click', function(){
+            document.querySelector(`#${divID}.taskContainer`).remove();
+            document.getElementById('popup-1').classList.toggle('active');
+            })
         })
     }
     var cancelDelete = document.getElementById('popCancel')
     cancelDelete.addEventListener('click', function(){
         document.getElementById('popup-1').classList.remove('active')
     })
-    var confirmDelete = document.getElementById('popDelete')
-    console.log('confirm delete: ' + confirmDelete);
-    confirmDelete.addEventListener('click', function(){
-        console.log(document.querySelector(`#${divID}.taskContainer`));
-        //HERE, need to figure out why this chunk of code is running twice
-    })
 }
 
 deleteTask ()
+
+function editTask() {
+    var editButton = document.getElementsByClassName('edit');
+    for (var i = 0; i<editButton.length; i++) {
+        editButton[i].addEventListener('click', function(){
+            document.getElementById('popup-2').classList.toggle('active');
+            id = this.id
+            var confirm = document.getElementById('popConfirm');
+            confirm.addEventListener('click', function() {
+                var newTaskName = document.getElementById('editInput').value;
+                document.querySelector(`#${id}.task`).textContent = newTaskName
+                document.getElementById('popup-2').classList.toggle('active')
+
+            })
+            
+        })
+    }
+    var pop2 = document.getElementById('popup-2');
+    console.log(pop2)
+    var cancelEdit = document.getElementById('popCancel2')
+    cancelEdit.addEventListener('click', function() {
+        document.getElementById('popup-2').classList.remove('active')
+    })
+}
+
+//HERE how to re-order the elements when they are clicked done
+//create an array of the div elements
+//within the function to update the style, can also move this div to the end of the array
+//append each of the children to the parent node (overview container) in the new order
+
+editTask()
