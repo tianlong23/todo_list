@@ -49,7 +49,6 @@ function getTaskName() {
     addTask = document.getElementById('taskButton');
     addTask.addEventListener('click', function() {
         taskName = $('.taskInput').text();
-        console.log(taskName);
         taskID = 'task' + taskNumber
         taskNumber = taskNumber + 1;
         appendTask(taskID, taskName);
@@ -70,18 +69,12 @@ function appendTask(taskID, taskName) {
         <button class="edit" id="${taskID}">Edit</button>
         <button class="delete" id="${taskID}">Delete</button>
     `;
-    console.log(addedTask);
     document.getElementById('overviewContainer').appendChild(addedTask);
-    finishTask();
     checkEventListener();
-    deleteTask();
-    editTask();
+    deleteEventListener();
+    editEventListener();
 }
-function finishTask() {
-    $("input:checkbox[name=type]:checked").each(function() {
-        console.log(this.id)
-    })
-}
+
 
 function checkEventListener() {
     var checkContainer = document.getElementsByClassName('checkContainer');
@@ -90,8 +83,26 @@ function checkEventListener() {
             checkContainer[i].addEventListener('click', updateStyleDone, false);
     }
 }
-    
     }
+
+function deleteEventListener() {
+    var deleteContainer = document.getElementsByClassName('delete');
+    for (var i = 0; i<deleteContainer.length; i++) {
+        if(deleteContainer) {
+            deleteContainer[i].addEventListener('click', deleteTask, false)
+        }
+    }
+}
+
+function editEventListener() {
+    var editContainer = document.getElementsByClassName('edit');
+    for (var i = 0; i<editContainer.length; i++) {
+        if(editContainer) {
+            editContainer[i].addEventListener('click', editTask, false)
+        }
+    }
+}
+
 
 function updateStyleDone() {
     var updatedTask = document.querySelector(`#${this.id}.taskContainer`)
@@ -100,61 +111,83 @@ function updateStyleDone() {
         updatedTask.querySelector(`#${this.id}.task`).classList.add('finished-task')
         updatedTask.querySelector(`#${this.id}.checkContainer`).classList.add('finished-checkContainer')
         updatedTask.querySelector(`#${this.id}.edit`).classList.add('finished-edit')
+        reorderFinishedTasks(updatedTask);
     } else {
         updatedTask.querySelector(`#${this.id}.task`).classList.remove('finished-task')
         updatedTask.querySelector(`#${this.id}.checkContainer`).classList.remove('finished-checkContainer')
         updatedTask.querySelector(`#${this.id}.edit`).classList.remove('finished-edit')
+        reorderUnFinishedTasks(updatedTask);
     }
+    
 }
 
 function deleteTask() {
-    var deleteButton = document.getElementsByClassName('delete');
-    for (var i = 0; i<deleteButton.length; i++) {
-        deleteButton[i].addEventListener('click', function(){
-            document.getElementById('popup-1').classList.toggle('active');
-            divID = this.id;
-            var confirmDelete = document.getElementById('popDelete')
-            confirmDelete.addEventListener('click', function(){
-            document.querySelector(`#${divID}.taskContainer`).remove();
-            document.getElementById('popup-1').classList.toggle('active');
-            })
-        })
+    document.getElementById('popup-1').classList.toggle('active');
+    divID = this.id;
+    var confirmDelete = document.getElementById('popDelete')
+    function deleteTaskContainer() {
+        document.querySelector(`#${divID}.taskContainer`).remove();
+        document.getElementById('popup-1').classList.toggle('active');
+        confirmDelete.removeEventListener('click', deleteTaskContainer);
     }
+
+    confirmDelete.addEventListener('click', deleteTaskContainer);
+
     var cancelDelete = document.getElementById('popCancel')
     cancelDelete.addEventListener('click', function(){
         document.getElementById('popup-1').classList.remove('active')
-    })
-}
-
-deleteTask ()
+});
+};
 
 function editTask() {
-    var editButton = document.getElementsByClassName('edit');
-    for (var i = 0; i<editButton.length; i++) {
-        editButton[i].addEventListener('click', function(){
+
             document.getElementById('popup-2').classList.toggle('active');
             id = this.id
             var confirm = document.getElementById('popConfirm');
             confirm.addEventListener('click', function() {
                 var newTaskName = document.getElementById('editInput').value;
                 document.querySelector(`#${id}.task`).textContent = newTaskName
-                document.getElementById('popup-2').classList.toggle('active')
-
+                document.getElementById('popup-2').classList.remove('active')
+                document.getElementById('editInput').value = "";
             })
-            
-        })
-    }
     var pop2 = document.getElementById('popup-2');
-    console.log(pop2)
     var cancelEdit = document.getElementById('popCancel2')
     cancelEdit.addEventListener('click', function() {
         document.getElementById('popup-2').classList.remove('active')
     })
 }
 
-//HERE how to re-order the elements when they are clicked done
-//create an array of the div elements
-//within the function to update the style, can also move this div to the end of the array
-//append each of the children to the parent node (overview container) in the new order
+//make animations for new created task, should just fade in like PPT
+//make animation for moving checked items up and down
 
-editTask()
+function reorderFinishedTasks(updatedTask) {
+    const container = document.getElementById('overviewContainer');
+    const divTasks = Array.from(container.children);
+    divTasks.sort(function(a,b) {
+    if (a === updatedTask) {
+        return 1;
+    } else if (b === updatedTask) {
+        return - 1;
+    } else {
+        return 0;
+    }
+    });
+    console.log(divTasks);
+    divTasks.forEach(div => container.appendChild(div))
+}
+
+function reorderUnFinishedTasks(updatedTask) {
+    const container = document.getElementById('overviewContainer');
+    const divTasks = Array.from(container.children);
+    divTasks.sort(function(a,b) {
+    if (a === updatedTask) {
+        return -1;
+    } else if (b === updatedTask) {
+        return 1;
+    } else {
+        return 0;
+    }
+    });
+    console.log(divTasks);
+    divTasks.forEach(div => container.appendChild(div))
+}
