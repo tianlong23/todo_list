@@ -42,20 +42,31 @@
 6) OPTIONAL make function to animate completed tasks to the bottom and shift the other ones up
 */
 
-
 var taskNumber = 0
 
 function getTaskName() {
     addTask = document.getElementById('taskButton');
     addTask.addEventListener('click', function() {
-        taskName = $('.taskInput').text();
+        taskName = document.getElementById('taskInput').value
         taskID = 'task' + taskNumber
         taskNumber = taskNumber + 1;
         appendTask(taskID, taskName);
-        $('.taskInput').text('What do you want to get done today?')
+        document.getElementById('taskInput').value = ''
+    })
+    addTaskEnter = document.getElementById('taskInput');
+    addTaskEnter.addEventListener('keypress', function(e){
+        if(e.key === 'Enter') {
+            console.log('ere')
+            taskName = document.getElementById('taskInput').value
+            taskID = 'task' + taskNumber
+            taskNumber = taskNumber + 1;
+            appendTask(taskID, taskName);
+            document.getElementById('taskInput').value = ''
+        }
     })
 }
 getTaskName()
+
 
 function appendTask(taskID, taskName) {
     var addedTask = document.createElement('div');
@@ -63,18 +74,23 @@ function appendTask(taskID, taskName) {
     addedTask.setAttribute('id', taskID);
     addedTask.innerHTML = `
         <div class="checkContainer" id="${taskID}">
-            <input type="checkbox" class="checkbox" name="type" id="${taskID}">
+            <input type="checkbox" class="checkbox newCheckAnimation" name="type" id="${taskID}">
         </div>
-        <div class="task" id="${taskID}">${taskName}</div>
-        <button class="edit" id="${taskID}">Edit</button>
-        <button class="delete" id="${taskID}">Delete</button>
+        <div class="task newTaskAnimation" id="${taskID}">${taskName}</div>
+        <button class="edit newEditAnimation" id="${taskID}">Edit</button>
+        <button class="delete newDeleteAnimation" id="${taskID}">Delete</button>
     `;
     document.getElementById('overviewContainer').appendChild(addedTask);
     checkEventListener();
     deleteEventListener();
     editEventListener();
+    setTimeout(function(){
+        document.querySelector(`#${taskID}.checkbox`).classList.remove('newCheckAnimation')
+        document.querySelector(`#${taskID}.task`).classList.remove('newTaskAnimation')
+        document.querySelector(`#${taskID}.edit`).classList.remove('newEditAnimation')
+        document.querySelector(`#${taskID}.delete`).classList.remove('newDeleteAnimation')
+    },400)
 }
-
 
 function checkEventListener() {
     var checkContainer = document.getElementsByClassName('checkContainer');
@@ -105,21 +121,37 @@ function editEventListener() {
 
 
 function updateStyleDone() {
+    taskID = this.id
     var updatedTask = document.querySelector(`#${this.id}.taskContainer`)
     if (updatedTask.querySelector(`#${this.id}.checkbox`).checked) {
         updatedTask.querySelector(`#${this.id}.task`).classList.remove
         updatedTask.querySelector(`#${this.id}.task`).classList.add('finished-task')
         updatedTask.querySelector(`#${this.id}.checkContainer`).classList.add('finished-checkContainer')
         updatedTask.querySelector(`#${this.id}.edit`).classList.add('finished-edit')
-        reorderFinishedTasks(updatedTask);
+        //reorderFinishedTasks(updatedTask);
     } else {
         updatedTask.querySelector(`#${this.id}.task`).classList.remove('finished-task')
         updatedTask.querySelector(`#${this.id}.checkContainer`).classList.remove('finished-checkContainer')
         updatedTask.querySelector(`#${this.id}.edit`).classList.remove('finished-edit')
-        reorderUnFinishedTasks(updatedTask);
+        updatedTask.querySelector(`#${this.id}.task`).classList.add('taskGreen')
+        updatedTask.querySelector(`#${this.id}.checkContainer`).classList.add('checkGreen')
+        updatedTask.querySelector(`#${this.id}.edit`).classList.add('editGreen')
+        setTimeout(function() {
+            updatedTask.querySelector(`#${taskID}.task`).classList.remove('taskGreen')
+            updatedTask.querySelector(`#${taskID}.checkContainer`).classList.remove('checkGreen')
+            updatedTask.querySelector(`#${taskID}.edit`).classList.remove('editGreen')
+        },400 )
+        //reorderUnFinishedTasks(updatedTask);
     }
     
 }
+
+//may need to create a new class in CSS, and add and remove it with a new animation
+
+//update unclicked checkbox animation to not flash
+//remove unecessary code
+//refactor as much as possible
+//put on git hub as "done"
 
 function deleteTask() {
     document.getElementById('popup-1').classList.toggle('active');
@@ -150,17 +182,23 @@ function editTask() {
                 document.getElementById('popup-2').classList.remove('active')
                 document.getElementById('editInput').value = "";
             })
-    var pop2 = document.getElementById('popup-2');
+            confirmEnter = document.getElementById('editInput');
+            confirmEnter.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    var newTaskName = document.getElementById('editInput').value;
+                    document.querySelector(`#${id}.task`).textContent = newTaskName
+                    document.getElementById('popup-2').classList.remove('active')
+                    document.getElementById('editInput').value = "";
+                }
+            })
     var cancelEdit = document.getElementById('popCancel2')
     cancelEdit.addEventListener('click', function() {
         document.getElementById('popup-2').classList.remove('active')
     })
 }
 
-//make animations for new created task, should just fade in like PPT
-//make animation for moving checked items up and down
 
-function reorderFinishedTasks(updatedTask) {
+/*function reorderFinishedTasks(updatedTask) {
     const container = document.getElementById('overviewContainer');
     const divTasks = Array.from(container.children);
     divTasks.sort(function(a,b) {
@@ -174,7 +212,7 @@ function reorderFinishedTasks(updatedTask) {
     });
     console.log(divTasks);
     divTasks.forEach(div => container.appendChild(div))
-}
+} */
 
 function reorderUnFinishedTasks(updatedTask) {
     const container = document.getElementById('overviewContainer');
